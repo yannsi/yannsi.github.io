@@ -1,6 +1,6 @@
 // yannsi工作室 — 作品集ページだけをオフラインで開けるようにする
 // 同じドメインの各作品（/tile-cipher/ など）には手を出さない
-const CACHE = "kousakushitsu-v1";
+const CACHE = "kousakushitsu-v2";
 const FILES = ["/", "/index.html", "/manifest.webmanifest",
   "/icons/icon-192.png", "/icons/icon-512.png", "/icons/maskable-512.png",
   "/icons/apple-touch-icon.png", "/icons/favicon-32.png"];
