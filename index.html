@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>yannsi工作室</title>
+<meta name="description" content="ネットに頼らず、画面・音・紙・カメラで情報をやりとりする仕組みの作品集">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=DotGothic16&display=swap">
+<style>
+/* 電子ペーパーの4色（黒・白・赤・黄）を基調に、作品を「何で渡すか」の4つの棚に並べる */
+:root {
+  --paper: #e4e4de;
+  --surface: #f2f2ee;
+  --ink: #17171a;
+  --muted: #5d5d58;
+  --line: #c4c4bc;
+  --red: #c4231f;
+  --yellow: #e2b812;
+  --chip: #d6d6ce;
+  --font-display: "DotGothic16", "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-body: "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141416; --surface: #1d1d20; --ink: #e6e6e0; --muted: #a3a39b; --line: #36363a;
+    --red: #ff5f56; --yellow: #f0cd3c; --chip: #2a2a2e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141416; --surface: #1d1d20; --ink: #e6e6e0; --muted: #a3a39b; --line: #36363a;
+  --red: #ff5f56; --yellow: #f0cd3c; --chip: #2a2a2e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.75;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 56px;
+}
+.wrap { max-width: 880px; margin: 0 auto; display: grid; gap: 48px; }
+a { color: inherit; text-decoration-color: var(--red); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 2px; }
+
+header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 32px; align-items: center; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1.15; margin: 0; letter-spacing: 0.03em; text-wrap: balance; }
+h1 .dot { color: var(--red); }
+.lead { margin: 16px 0 0; font-size: 1.05rem; max-width: 34em; }
+.rules { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 6px; color: var(--muted); font-size: 0.92rem; }
+.rules li { display: flex; gap: 10px; align-items: baseline; }
+.rules li::before { content: ""; flex: none; width: 8px; height: 8px; background: var(--yellow); outline: 1px solid var(--ink); transform: translateY(-1px); }
+figure { margin: 0; display: grid; gap: 8px; }
+.epaper { background: #f4f4f0; padding: 10px; border-radius: 10px; border: 1px solid var(--line); }
+.epaper img { display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; image-rendering: pixelated; }
+figcaption { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+section { display: grid; gap: 14px; }
+.shelf { display: flex; align-items: baseline; gap: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; margin: 0; letter-spacing: 0.04em; }
+.shelf p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+
+.works { list-style: none; margin: 0; padding: 0; display: grid; }
+.work { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 8px 28px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.work:last-child { border-bottom: 0; }
+.name { display: grid; gap: 6px; align-content: start; }
+h3 { font-size: 1.15rem; margin: 0; line-height: 1.4; text-wrap: balance; }
+h3 a { text-decoration-thickness: 2px; }
+.uses { display: flex; flex-wrap: wrap; gap: 6px; }
+.uses span { font-size: 0.75rem; letter-spacing: 0.04em; background: var(--chip); padding: 1px 8px; border-radius: 3px; }
+.body { display: grid; gap: 8px; min-width: 0; }
+.body p { margin: 0; }
+.fact { font-size: 0.88rem; color: var(--muted); }
+.fact b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.85rem; }
+.links a.repo { color: var(--muted); }
+.note { font-size: 0.8rem; color: var(--muted); }
+
+footer { border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+
+@media (max-width: 640px) {
+  header { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  figure { max-width: 320px; }
+  .work { grid-template-columns: minmax(0, 1fr); }
+  .shelf { flex-wrap: wrap; gap: 2px 12px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>yannsi<br>工作室<span class="dot">.</span></h1>
+      <p class="lead">ネットに頼らず、画面・音・紙・カメラで情報をやりとりする仕組みを、一から作って試しています。どれもスマホのブラウザで開けます。</p>
+      <ul class="rules">
+        <li>映像や音は、端末の中だけで処理して外に送らない</li>
+        <li>多くはホーム画面に置けて、電波のない所でも開ける</li>
+        <li>実物の電子ペーパーやスマホで試して、直す</li>
+      </ul>
+    </div>
+    <figure>
+      <div class="epaper"><img src="data:image/png;base64,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" alt="黒・白・赤・黄の4色で描かれた図形タイルの模様" width="400" height="300"></div>
+      <figcaption>この模様も作品のひとつ「タイル暗号」です。タイル暗号のアプリで撮ると、隠した言葉が出てきます。</figcaption>
+    </figure>
+  </header>
+
+  <section aria-labelledby="s-qr">
+    <div class="shelf"><h2 id="s-qr">QRで渡す</h2><p>カメラで読むだけ。サーバーを通さない</p></div>
+    <ul class="works">
+      <li class="work">
+        <div class="name"><h3><a href="https://koe-qr.web.app/">声のQR</a></h3><div class="uses"><span>マイク</span><span>カメラ</span></div></div>
+        <div class="body">
+          <p>録音した声や、ドレミ・工工四（くんくんしー）で書いたメロディを、QRコードの中にそのまま入れます。読み取った端末で、三線・オルゴール・ピアノの音にして鳴らします。</p>
+          <p class="fact">QRコード1枚に声なら <b>約15〜26秒</b>、メロディなら <b>最大約1,100音</b></p>
+          <div class="links"><a href="https://koe-qr.web.app/">開く</a><a class="repo" href="https://github.com/yannsi/koe-qr">GitHub</a></div>
+        </div>
+      </li>
+      <li class="work">
+        <div class="name"><h3><a href="https://yannsi.github.io/ugoku-qr/">動くQR</a></h3><div class="uses"><span>画面</span><span>カメラ</span></div></div>
+        <div class="body">
+          <p>QRコードをパラパラ漫画のように次々と切り替えて、1枚には入りきらない文字やファイルを渡します。写真は自動で小さくしてから送ります。</p>
+          <div class="links"><a href="https://yannsi.github.io/ugoku-qr/">開く</a><a class="repo" href="https://github.com/yannsi/ugoku-qr">GitHub</a></div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="s-oto">
+    <div class="shelf"><h2 id="s-oto">音で渡す</h2><p>スピーカーから鳴らして、マイクで聞き取る</p></div>
+    <ul class="works">
+      <li class="work">
+        <div class="name"><h3><a href="https://yannsi.github.io/oto-wo-miru/">音を見る・音で送る</a></h3><div class="uses"><span>マイク</span><span>スピーカー</span></div></div>
+        <div class="body">
+          <p>音でデータを送る仕組みを、3段階で一から作りました。音を目で見る、文字を「低い音＝0・高い音＝1」にして送る、絵の明るさを音の高さにして1行ずつ送る（FAXと同じ考え方）。</p>
+          <p class="fact">人の耳に聞こえない <b>約18,500Hz</b> の音でも送れます。速いときは <b>1ビット0.02秒</b></p>
+          <div class="links"><a href="https://yannsi.github.io/oto-wo-miru/">音を見る</a><a href="https://yannsi.github.io/oto-wo-miru/okuru.html">音で文字を送る</a><a href="https://yannsi.github.io/oto-wo-miru/e.html">音で絵を送る</a><a class="repo" href="https://github.com/yannsi/oto-wo-miru">GitHub</a></div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="s-e">
+    <div class="shelf"><h2 id="s-e">絵で渡す</h2><p>ふつうの絵に見えて、実は中身がある</p></div>
+    <ul class="works">
+      <li class="work">
+        <div class="name"><h3><a href="https://yannsi.github.io/tile-cipher/">タイル暗号</a></h3><div class="uses"><span>電子ペーパー</span><span>カメラ</span></div></div>
+        <div class="body">
+          <p>言葉を、4色の電子ペーパーに映した図形タイルや、夜景のビルの窓の明かりに隠します。斜めやピンぼけの写真からでも、色見本でくすみを補正して読み戻します。合言葉を付けることもできます。</p>
+          <p class="fact">図形タイルは <b>48マス</b>、1マス <b>64通り</b>。1枚に日本語で <b>16文字前後</b></p>
+          <div class="links"><a href="https://yannsi.github.io/tile-cipher/">開く</a><a class="repo" href="https://github.com/yannsi/tile-cipher">GitHub</a></div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="s-karada">
+    <div class="shelf"><h2 id="s-karada">カメラで体を読む</h2><p>カメラを、指や手の動きを読む道具にする</p></div>
+    <ul class="works">
+      <li class="work">
+        <div class="name"><h3><a href="https://yannsi.github.io/myaku-wo-miru/">脈を見る</a></h3><div class="uses"><span>カメラ</span></div></div>
+        <div class="body">
+          <p>指先をスマホの背面カメラにのせると、脈の波形と1分あたりの拍数を表示します。呼吸のガイドと、1拍ごとの変化のグラフも付いています。</p>
+          <p class="fact"><b>15秒</b>で結果を表示</p>
+          <p class="note">体験用の作品で、医療機器ではありません。</p>
+          <div class="links"><a href="https://yannsi.github.io/myaku-wo-miru/">開く</a><a class="repo" href="https://github.com/yannsi/myaku-wo-miru">GitHub</a></div>
+        </div>
+      </li>
+      <li class="work">
+        <div class="name"><h3><a href="https://yannsi.github.io/te-de-egaku/">手で描く</a></h3><div class="uses"><span>カメラ</span><span>スピーカー</span></div></div>
+        <div class="body">
+          <p>AIが指の位置を読み取り、親指と人差し指をつまむと空中に線が描けます。同じ仕組みで、指の本数でコードを選んで弦をかき鳴らす「空中ギター」と、机に置いた紙の鍵盤をたたくと鳴る「紙のピアノ」も作りました。</p>
+          <div class="links"><a href="https://yannsi.github.io/te-de-egaku/">手で描く</a><a href="https://yannsi.github.io/te-de-egaku/guitar/">空中ギター</a><a href="https://yannsi.github.io/te-de-egaku/paper/">紙のピアノ</a><a class="repo" href="https://github.com/yannsi/te-de-egaku">GitHub</a></div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>作っている人: yannsi</span>
+    <a href="https://github.com/yannsi">github.com/yannsi</a>
+  </footer>
+</div>
+</body>
+</html>
