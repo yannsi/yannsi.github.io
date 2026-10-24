@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>yannsi工作室</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#17171a">
+<link rel="icon" href="/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="工作室">
 <meta name="description" content="ネットに頼らず、画面・音・紙・カメラで情報をやりとりする仕組みの作品集">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -181,5 +187,10 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; color: var(--mute
     <a href="https://github.com/yannsi">github.com/yannsi</a>
   </footer>
 </div>
+<script>
+if ("serviceWorker" in navigator) {
+  addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+}
+</script>
 </body>
 </html>
